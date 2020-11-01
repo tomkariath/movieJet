@@ -37,11 +37,13 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojknockouttemplateutils',
 
       let navData = [
         { path: '', redirect: 'login' },
-        { path: 'login', detail: { label: 'Dashboard', iconClass: 'oj-ux-ico-bar-chart' } },
-        { path: 'incidents', detail: { label: 'Incidents', iconClass: 'oj-ux-ico-fire' } },
-        { path: 'customers', detail: { label: 'Customers', iconClass: 'oj-ux-ico-contact-group' } },
-        { path: 'about', detail: { label: 'About', iconClass: 'oj-ux-ico-information-s' } }
+        { path: 'login', detail: { label: 'Login', iconClass: 'oj-ux-ico-contact-group' } },
+        { path: 'dashboard', detail: { label: 'Dashboard', iconClass: 'oj-ux-ico-bar-chart' } }
       ];
+
+      self.isLoggedIn = ko.observable(false);
+      self.loginUser = ko.observable(false);
+      self.loginPassword = ko.observable(false);
 
       // Router setup
       let router = new CoreRouter(navData, {
@@ -75,7 +77,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojknockouttemplateutils',
       // Application Name used in Branding Area
       this.appName = ko.observable("Movie App");
       // User Info used in Global Navigation area
-      this.userLogin = ko.observable("john.hancock@oracle.com");
+      this.userLogin = ko.observable("No User Logged In");
 
       // Footer
       this.footerLinks = [

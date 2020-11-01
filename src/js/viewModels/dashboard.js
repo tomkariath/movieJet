@@ -17,6 +17,7 @@ define(['accUtils',
 		function DashboardViewModel() {
 
 			var self = this;
+			var rootViewModel = ko.dataFor(document.getElementById('mainContent'));
 
 			self.serviceURL = 'http://localhost:8080/movies';
 			//self.serviceURL = 'data/movieData.json';
@@ -26,7 +27,7 @@ define(['accUtils',
 			self.myBasicAuth = function () { };
 			self.myBasicAuth.prototype.getHeader = function () {
 				var headers = {};
-				headers['Authorization'] = 'Basic ' + btoa("Johny:Oracle123");
+				headers['Authorization'] = 'Basic ' + btoa(rootViewModel.loginUser + ":" + rootViewModel.loginPassword);
 
 				return headers;
 			};

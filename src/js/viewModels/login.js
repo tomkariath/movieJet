@@ -11,6 +11,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojinputtext',
           self.submittedValue = ko.observable("");
           self.tracker = ko.observable();
 
+          var rootViewModel = ko.dataFor(document.getElementById('mainContent'));
+
           self.submitBt = function (data, event)
           {
             var tracker = self.tracker();
@@ -23,17 +25,28 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojinputtext',
               return;
             }
             self.submittedValue(self.user() + " - " + self.password());
+            rootViewModel.loginUser = self.user();
+            rootViewModel.loginPassword = self.password();
             //change this to a valid ajax call.
-            /*$.ajax({
-            url: "http://localhost:8080/myservice/rest/application/loginUser",
-            data: {user: user(), password: password()},
-            type: 'POST',
+            $.ajax({
+            url: "http://localhost:8080/movies",
+            type: 'GET',
             dataType: 'json',
+            beforeSend: function (xhr) {
+              xhr.setRequestHeader ("Authorization", "Basic " + btoa(self.user() + ":" + self.password()));
+            },
             success: function (data, textStatus, jqXHR) {
                 var x = data;
-
+                //alert(rootViewModel.isLoggedIn);
+                rootViewModel.userLogin(self.user());
+                rootViewModel.isLoggedIn = true;
+            },
+            error: function(e) {
+              alert('jumba');
+              rootViewModel.isLoggedIn = false;
+              
             }
-            });*/
+            });
             return true;
         }
 		
