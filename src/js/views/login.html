@@ -1,0 +1,32 @@
+<div class="oj-hybrid-padding">
+    <div>
+        <div class="oj-flex oj-sm-flex-direction-column oj-md-flex-direction-column">
+            <div class="oj-flex-item">
+
+                <label for="text-user">User:</label>
+                <input id="text-user" type="text"
+                    data-bind="ojComponent: {
+                        component: 'ojInputText', 
+                        value: user, 
+                        required:true, 
+                        invalidComponentTracker: tracker
+                    }" />
+
+                <label for="text-password">Password:</label>
+                <input id="text-password" type="password"
+                    data-bind="ojComponent: {
+                        component: 'ojInputPassword', 
+                        value: password, 
+                        required:true, 
+                        invalidComponentTracker: tracker
+                    }" />
+
+                <br /><br />
+                <input id="submit" type="submit" data-bind="click: submitBt, 
+                    ojComponent: {component: 'ojButton', label: 'Login'}" />
+                <span class="oj-label">Submitted value is: </span>
+                <span data-bind="text: submittedValue"></span>
+            </div>
+        </div>
+    </div>
+</div>

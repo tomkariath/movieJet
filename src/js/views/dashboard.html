@@ -1,0 +1,31 @@
+<!--
+ Copyright (c) 2014, 2020, Oracle and/or its affiliates.
+ Licensed under The Universal Permissive License (UPL), Version 1.0
+ as shown at https://oss.oracle.com/licenses/upl/
+ -->
+<div class="oj-hybrid-padding">
+	<h1>Movie List</h1>
+	<div id="componentDemoContent" style="width: 1px; min-width: 100%;">
+        	<oj-table id="table" data="[[datasource]]"
+          		columns='[{"headerText": "Movie Id",
+                     "field": "id", "sortable": "enabled"},
+                    {"headerText": "Movie Name",
+					 "field": "name", "sortable": "enabled"},
+					 {"headerText": "Up Vote",
+					 "field": "goodCount", "sortable": "enabled"},
+					 {"headerText": "Down Vote",
+                     "field": "badCount", "sortable": "enabled"}]'
+          		selectionMode='{"row": "none", "column": "none"}'
+          		row-renderer='[[oj.KnockoutTemplateUtils.getRenderer("row_tmpl", true)]]'>
+			</oj-table>
+
+		<script type="text/html" id="row_tmpl">    
+			<tr>
+			  <td><div id='id' data-bind="text: id"></div></td>
+			  <td><div id="name" data-bind="text: name"></div></td>
+			  <td><div id="goodCount" data-bind="text: goodCount"></div></td>
+			  <td><div id="badCount" data-bind="text: badCount"></div></td>
+			</tr>
+		</script>
+	</div>
+</div>
