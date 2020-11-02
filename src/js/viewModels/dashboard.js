@@ -9,12 +9,63 @@
  * Your dashboard ViewModel code goes here
  */
 define(['accUtils',
-	'ojs/ojcore', 'knockout',
-	'ojs/ojknockout',
+	'ojs/ojcore', 'knockout', 'jquery',
 	'ojs/ojmodel', 'ojs/ojcollectiondataprovider',
-	'ojs/ojtable'],
-	function (accUtils, oj, ko, Model, CollectionDataProvider) {
+	'ojs/ojknockout', 
+	'ojs/ojtable', 'ojs/ojcheckboxset', 'ojs/ojinputnumber',
+	'ojs/ojinputtext', 'ojs/ojdialog', 'ojs/ojbutton'],
+	function (accUtils, oj, ko, $, Model, CollectionDataProvider) {
 		function DashboardViewModel() {
+
+			var self = this;
+			self.somethingChecked = ko.observable(false);
+			self.currentDeptName = ko.observable('default');
+			self.newMovieId = ko.observable(555);
+			self.newMovieName = ko.observable('');
+			self.workingId = ko.observable('');
+
+			self.upVote = function (id, event) {
+				alert(self.MovieCol().get(id).get("id"));
+			};
+
+			self.downVote = function (id, event) {
+				alert(self.MovieCol().get(id).get("id"));
+			};
+
+			self.updateDeptName = function (formData, event) {
+				var currentId = self.workingId();
+				var myCollection = self.DeptCol();
+				var myModel = myCollection.get(currentId);
+				var newName = self.currentDeptName();
+				if (newName != myModel.get('DepartmentName') && newName != '') {
+					myModel.save({ 'DepartmentName': newName }, {
+						success: function (myModel, response, options) {
+							document.getElementById("editDialog").close();
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							alert("Update failed with: " + textStatus);
+							document.getElementById("editDialog").close();
+						}
+					});
+				} else {
+					alert('Department Name is not different or the new name is not valid');
+					document.getElementById("editDialog").close();
+				}
+			};
+
+			// Create handler
+			self.addMovie = function (event) {
+				var recordAttrs = { id: self.newMovieId(), name: self.newMovieName() };
+				self.MovieCol().create(recordAttrs, {
+					wait: true,
+					contentType: 'application/vnd.oracle.adf.resource+json',
+					success: function (model, response) {
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.log('Error in Create: ' + textStatus);
+					}
+				});
+			};
 
 			var self = this;
 			var rootViewModel = ko.dataFor(document.getElementById('mainContent'));

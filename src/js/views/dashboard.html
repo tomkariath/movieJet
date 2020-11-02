@@ -6,25 +6,53 @@
 <div class="oj-hybrid-padding">
 	<h1>Movie List</h1>
 	<div id="componentDemoContent" style="width: 1px; min-width: 100%;">
-        	<oj-table id="table" data="[[datasource]]"
-          		columns='[{"headerText": "Movie Id",
+		<oj-table id="table" data="[[datasource]]" columns='[
+					{"headerText": "Movie Id",
                      "field": "id", "sortable": "enabled"},
                     {"headerText": "Movie Name",
 					 "field": "name", "sortable": "enabled"},
 					 {"headerText": "Up Vote",
 					 "field": "goodCount", "sortable": "enabled"},
 					 {"headerText": "Down Vote",
-                     "field": "badCount", "sortable": "enabled"}]'
-          		selectionMode='{"row": "none", "column": "none"}'
-          		row-renderer='[[oj.KnockoutTemplateUtils.getRenderer("row_tmpl", true)]]'>
-			</oj-table>
+					 "field": "badCount", "sortable": "enabled"}]' selectionMode='{"row": "none", "column": "none"}'
+			row-renderer='[[oj.KnockoutTemplateUtils.getRenderer("row_tmpl", true)]]'>
+		</oj-table>
+		<br />
+		<br /><br />
+		<!-- A simple form is used to add a new department record. -->
+		<div id="addMovie" class="oj-form-layout">
+			<div id="quickUpdate" class="oj-form oj-sm-odd-cols-12 oj-md-odd-cols-4 oj-md-labels-inline">
+				<h3>Add New Movie</h3>
+				<hr />
+				<div class="oj-flex">
+					<div class="oj-flex-item">
+						<oj-label for="newMovieName">Movie Name</oj-label>
+					</div>
+					<div class="oj-flex-item">
+						<oj-input-text id="newMovieName" maxlength='30' value="{{newMovieName}}"
+							placeholder="enter new name"></oj-input-text>
+						<oj-button id="saveBtn" on-click="[[addMovie]]">Add Movie</oj-button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br />
+		<br />
 
-		<script type="text/html" id="row_tmpl">    
+		<script type="text/html" id="row_tmpl">
 			<tr>
-			  <td><div id='id' data-bind="text: id"></div></td>
-			  <td><div id="name" data-bind="text: name"></div></td>
-			  <td><div id="goodCount" data-bind="text: goodCount"></div></td>
-			  <td><div id="badCount" data-bind="text: badCount"></div></td>
+			  	<td><div id='id' data-bind="text: id"></div></td>
+				<td><div id="name" data-bind="text: name"></div></td>
+				<td><oj-button id="upVoteBtn" data-bind="attr:{id: id}, click:function(id, event){$parent.upVote(id, event)}">
+					<span> 
+						<oj-bind-text value="[[goodCount]]"></oj-bind-text>
+					</span>
+				</oj-button></td>
+				<td><oj-button id="downVoteBtn" data-bind="attr:{id: id}, click:function(id, event){$parent.downVote(id, event)}">
+					<span> 
+						<oj-bind-text value="[[badCount]]"></oj-bind-text>
+					</span>
+				</oj-button></td>
 			</tr>
 		</script>
 	</div>
