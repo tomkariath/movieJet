@@ -11,7 +11,7 @@
 define(['accUtils',
 	'ojs/ojcore', 'knockout', 'jquery',
 	'ojs/ojmodel', 'ojs/ojcollectiondataprovider',
-	'ojs/ojknockout', 
+	'ojs/ojknockout',
 	'ojs/ojtable', 'ojs/ojcheckboxset', 'ojs/ojinputnumber',
 	'ojs/ojinputtext', 'ojs/ojdialog', 'ojs/ojbutton'],
 	function (accUtils, oj, ko, $, Model, CollectionDataProvider) {
@@ -20,17 +20,20 @@ define(['accUtils',
 			var self = this;
 			self.newMovieName = ko.observable('');
 			self.workingId = ko.observable('');
-			var rootViewModel = ko.dataFor(document.getElementById('mainContent'));
+			//var rootViewModel = ko.dataFor(document.getElementById('mainContent'));
+			var cred = getCookie("cred");
+			// btoa(rootViewModel.loginUser + ":" + rootViewModel.loginPassword)
+
 
 			self.upVote = function (id, event) {
 				var movieId = self.MovieCol().get(id).get("id");
 				$.ajax({
-					url: "http://localhost:8080/movies/"+movieId+"/upvote",
+					url: "http://localhost:8080/movies/" + movieId + "/upvote",
 					type: 'GET',
 					dataType: 'json',
 					beforeSend: function (xhr) {
-				  		xhr.setRequestHeader ("Authorization", 
-				  			"Basic " + btoa(rootViewModel.loginUser + ":" + rootViewModel.loginPassword));
+						xhr.setRequestHeader("Authorization",
+							"Basic " + cred);
 					}
 				});
 				self.MovieCol(new self.MovieCollection());
@@ -41,12 +44,12 @@ define(['accUtils',
 			self.downVote = function (id, event) {
 				var movieId = self.MovieCol().get(id).get("id");
 				$.ajax({
-					url: "http://localhost:8080/movies/"+movieId+"/downvote",
+					url: "http://localhost:8080/movies/" + movieId + "/downvote",
 					type: 'GET',
 					dataType: 'json',
 					beforeSend: function (xhr) {
-				  		xhr.setRequestHeader ("Authorization", 
-				  			"Basic " + btoa(rootViewModel.loginUser + ":" + rootViewModel.loginPassword));
+						xhr.setRequestHeader("Authorization",
+							"Basic " + cred);
 					}
 				});
 				self.MovieCol(new self.MovieCollection());
@@ -67,8 +70,8 @@ define(['accUtils',
 					dataType: 'text',
 					cache: false,
 					beforeSend: function (xhr) {
-						xhr.setRequestHeader ("Authorization", 
-							"Basic " + btoa(rootViewModel.loginUser + ":" + rootViewModel.loginPassword));
+						xhr.setRequestHeader("Authorization",
+							"Basic " + cred);
 					}
 				});
 				self.MovieCol(new self.MovieCollection());
@@ -76,8 +79,21 @@ define(['accUtils',
 				document.getElementById("table").refresh();
 			};
 
-			var self = this;
-			var rootViewModel = ko.dataFor(document.getElementById('mainContent'));
+			function getCookie (cookieName) {
+				var name = cookieName + "=";
+				var decodedCookie = decodeURIComponent(document.cookie);
+				var ca = decodedCookie.split(';');
+				for (var i = 0; i < ca.length; i++) {
+					var c = ca[i];
+					while (c.charAt(0) == ' ') {
+						c = c.substring(1);
+					}
+					if (c.indexOf(name) == 0) {
+						return c.substring(name.length, c.length);
+					}
+				}
+				return "";
+			};
 
 			self.serviceURL = 'http://localhost:8080/movies';
 			//self.serviceURL = 'data/movieData.json';
@@ -87,7 +103,7 @@ define(['accUtils',
 			self.myBasicAuth = function () { };
 			self.myBasicAuth.prototype.getHeader = function () {
 				var headers = {};
-				headers['Authorization'] = 'Basic ' + btoa(rootViewModel.loginUser + ":" + rootViewModel.loginPassword);
+				headers['Authorization'] = 'Basic ' + cred;
 
 				return headers;
 			};
@@ -96,6 +112,10 @@ define(['accUtils',
 				accUtils.announce('Dashboard page loaded.', 'assertive');
 				document.title = "Dashboard";
 				// Implement further logic if needed
+				var addMovieDiv = document.getElementById('addMovie');
+				if (getCookie("admin") === 'true') {
+					addMovieDiv.style.display = "block";
+				}
 			};
 
 			self.parseMovie = function (response) {
