@@ -18,53 +18,62 @@ define(['accUtils',
 		function DashboardViewModel() {
 
 			var self = this;
-			self.somethingChecked = ko.observable(false);
-			self.currentDeptName = ko.observable('default');
-			self.newMovieId = ko.observable(555);
 			self.newMovieName = ko.observable('');
 			self.workingId = ko.observable('');
+			var rootViewModel = ko.dataFor(document.getElementById('mainContent'));
 
 			self.upVote = function (id, event) {
-				alert(self.MovieCol().get(id).get("id"));
+				var movieId = self.MovieCol().get(id).get("id");
+				$.ajax({
+					url: "http://localhost:8080/movies/"+movieId+"/upvote",
+					type: 'GET',
+					dataType: 'json',
+					beforeSend: function (xhr) {
+				  		xhr.setRequestHeader ("Authorization", 
+				  			"Basic " + btoa(rootViewModel.loginUser + ":" + rootViewModel.loginPassword));
+					}
+				});
+				self.MovieCol(new self.MovieCollection());
+				self.datasource(new oj.CollectionDataProvider(self.MovieCol()));
+				document.getElementById("table").refresh();
 			};
 
 			self.downVote = function (id, event) {
-				alert(self.MovieCol().get(id).get("id"));
-			};
-
-			self.updateDeptName = function (formData, event) {
-				var currentId = self.workingId();
-				var myCollection = self.DeptCol();
-				var myModel = myCollection.get(currentId);
-				var newName = self.currentDeptName();
-				if (newName != myModel.get('DepartmentName') && newName != '') {
-					myModel.save({ 'DepartmentName': newName }, {
-						success: function (myModel, response, options) {
-							document.getElementById("editDialog").close();
-						},
-						error: function (jqXHR, textStatus, errorThrown) {
-							alert("Update failed with: " + textStatus);
-							document.getElementById("editDialog").close();
-						}
-					});
-				} else {
-					alert('Department Name is not different or the new name is not valid');
-					document.getElementById("editDialog").close();
-				}
+				var movieId = self.MovieCol().get(id).get("id");
+				$.ajax({
+					url: "http://localhost:8080/movies/"+movieId+"/downvote",
+					type: 'GET',
+					dataType: 'json',
+					beforeSend: function (xhr) {
+				  		xhr.setRequestHeader ("Authorization", 
+				  			"Basic " + btoa(rootViewModel.loginUser + ":" + rootViewModel.loginPassword));
+					}
+				});
+				self.MovieCol(new self.MovieCollection());
+				self.datasource(new oj.CollectionDataProvider(self.MovieCol()));
+				document.getElementById("table").refresh();
 			};
 
 			// Create handler
 			self.addMovie = function (event) {
-				var recordAttrs = { id: self.newMovieId(), name: self.newMovieName() };
-				self.MovieCol().create(recordAttrs, {
-					wait: true,
-					contentType: 'application/vnd.oracle.adf.resource+json',
-					success: function (model, response) {
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
-						console.log('Error in Create: ' + textStatus);
+				var newMovie = {};
+				newMovie["name"] = self.newMovieName();
+				//var recordAttrs = { id: self.newMovieId(), name: self.newMovieName() };
+				$.ajax({
+					type: "POST",
+					contentType: "application/json",
+					url: "http://localhost:8080/movies",
+					data: JSON.stringify(newMovie),
+					dataType: 'text',
+					cache: false,
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader ("Authorization", 
+							"Basic " + btoa(rootViewModel.loginUser + ":" + rootViewModel.loginPassword));
 					}
 				});
+				self.MovieCol(new self.MovieCollection());
+				self.datasource(new oj.CollectionDataProvider(self.MovieCol()));
+				document.getElementById("table").refresh();
 			};
 
 			var self = this;
