@@ -4,6 +4,8 @@
             <div class="oj-flex-item">
 
                 <label for="text-user">User:</label>
+                <!--<oj-input-text id="text-user" value="{{user}}"
+							required="true"></oj-input-text>-->
                 <input id="text-user" type="text"
                     data-bind="ojComponent: {
                         component: 'ojInputText', 
@@ -13,6 +15,8 @@
                     }" />
 
                 <label for="text-password">Password:</label>
+                <!--<oj-input-password id="text-password" value="{{password}}"
+							required="true"></oj-input-password>-->
                 <input id="text-password" type="password"
                     data-bind="ojComponent: {
                         component: 'ojInputPassword', 
@@ -22,10 +26,11 @@
                     }" />
 
                 <br /><br />
+                <!--<oj-button id="submit" type="submit" on-click="[[submitBt]]">Login</oj-button>-->
                 <input id="submit" type="submit" data-bind="click: submitBt, 
                     ojComponent: {component: 'ojButton', label: 'Login'}" />
                 <span class="oj-label">Submitted value is: </span>
-                <span data-bind="text: submittedValue"></span>
+                <oj-bind-text value="[[submittedValue]]"></oj-bind-text>
             </div>
         </div>
     </div>

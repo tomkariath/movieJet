@@ -10,11 +10,11 @@
  */
 define(['accUtils',
 	'ojs/ojcore', 'knockout', 'jquery',
-	'ojs/ojmodel', 'ojs/ojcollectiondataprovider',
+	'ojs/ojmodel', 'ojs/ojcollectiontabledatasource',
 	'ojs/ojknockout',
 	'ojs/ojtable', 'ojs/ojcheckboxset', 'ojs/ojinputnumber',
-	'ojs/ojinputtext', 'ojs/ojdialog', 'ojs/ojbutton'],
-	function (accUtils, oj, ko, $, Model, CollectionDataProvider) {
+	'ojs/ojinputtext', 'ojs/ojdialog', 'ojs/ojbutton', 'ojs/ojformlayout'],
+	function (accUtils, oj, ko, $, Model, CollectionTableDataSource) {
 		function DashboardViewModel() {
 
 			var self = this;
@@ -37,7 +37,7 @@ define(['accUtils',
 					}
 				});
 				self.MovieCol(new self.MovieCollection());
-				self.datasource(new oj.CollectionDataProvider(self.MovieCol()));
+				self.datasource(new oj.CollectionTableDataSource(self.MovieCol()));
 				document.getElementById("table").refresh();
 			};
 
@@ -53,7 +53,7 @@ define(['accUtils',
 					}
 				});
 				self.MovieCol(new self.MovieCollection());
-				self.datasource(new oj.CollectionDataProvider(self.MovieCol()));
+				self.datasource(new oj.CollectionTableDataSource(self.MovieCol()));
 				document.getElementById("table").refresh();
 			};
 
@@ -75,7 +75,7 @@ define(['accUtils',
 					}
 				});
 				self.MovieCol(new self.MovieCollection());
-				self.datasource(new oj.CollectionDataProvider(self.MovieCol()));
+				self.datasource(new oj.CollectionTableDataSource(self.MovieCol()));
 				document.getElementById("table").refresh();
 			};
 
@@ -143,7 +143,7 @@ define(['accUtils',
 
 			self.MovieCol(new self.MovieCollection());
 			//DataProvider?
-			self.datasource(new oj.CollectionDataProvider(self.MovieCol()));
+			self.datasource(new oj.CollectionTableDataSource(self.MovieCol()));
 
 			/**
 			 * Optional ViewModel method invoked after the View is disconnected from the DOM.
