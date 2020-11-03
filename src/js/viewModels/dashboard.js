@@ -30,15 +30,19 @@ define(['accUtils',
 				$.ajax({
 					url: "http://localhost:8080/movies/" + movieId + "/upvote",
 					type: 'GET',
-					dataType: 'json',
 					beforeSend: function (xhr) {
 						xhr.setRequestHeader("Authorization",
 							"Basic " + cred);
+					},
+					success: function (data, textStatus, jqXHR) {
+						self.MovieCol(new self.MovieCollection());
+						self.datasource(new oj.CollectionTableDataSource(self.MovieCol()));
+						document.getElementById("table").refresh();
+					},
+					error: function (e) {
+						alert("Already Voted");
 					}
 				});
-				self.MovieCol(new self.MovieCollection());
-				self.datasource(new oj.CollectionTableDataSource(self.MovieCol()));
-				document.getElementById("table").refresh();
 			};
 
 			self.downVote = function (id, event) {
@@ -46,15 +50,19 @@ define(['accUtils',
 				$.ajax({
 					url: "http://localhost:8080/movies/" + movieId + "/downvote",
 					type: 'GET',
-					dataType: 'json',
 					beforeSend: function (xhr) {
 						xhr.setRequestHeader("Authorization",
 							"Basic " + cred);
+					},
+					success: function (data, textStatus, jqXHR) {
+						self.MovieCol(new self.MovieCollection());
+						self.datasource(new oj.CollectionTableDataSource(self.MovieCol()));
+						document.getElementById("table").refresh();
+					},
+					error: function (e) {
+						alert("Already Voted");
 					}
 				});
-				self.MovieCol(new self.MovieCollection());
-				self.datasource(new oj.CollectionTableDataSource(self.MovieCol()));
-				document.getElementById("table").refresh();
 			};
 
 			// Create handler
@@ -72,14 +80,19 @@ define(['accUtils',
 					beforeSend: function (xhr) {
 						xhr.setRequestHeader("Authorization",
 							"Basic " + cred);
+					},
+					success: function (data, textStatus, jqXHR) {
+						self.MovieCol(new self.MovieCollection());
+						self.datasource(new oj.CollectionTableDataSource(self.MovieCol()));
+						document.getElementById("table").refresh();
+					},
+					error: function (e) {
+						alert("Unable to add Movie");
 					}
 				});
-				self.MovieCol(new self.MovieCollection());
-				self.datasource(new oj.CollectionTableDataSource(self.MovieCol()));
-				document.getElementById("table").refresh();
 			};
 
-			function getCookie (cookieName) {
+			function getCookie(cookieName) {
 				var name = cookieName + "=";
 				var decodedCookie = decodeURIComponent(document.cookie);
 				var ca = decodedCookie.split(';');
