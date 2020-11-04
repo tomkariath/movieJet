@@ -4,7 +4,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojinputtext',
 
     function LoginContentViewModel() {
       var self = this;
-      self.user = ko.observable("Super");
+      self.user = ko.observable("");
       self.password = ko.observable("");
       self.submittedValue = ko.observable("");
       self.tracker = ko.observable();
@@ -59,7 +59,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojinputtext',
 
       self.setCookie = function (cookieName, cookieValue, expiry) {
         var d = new Date();
-        d.setTime(d.getTime() + (expiry * 24 * 60 * 60 * 1000));
+        d.setTime(d.getTime() + (expiry * 3 * 60 * 60 * 1000));
         var expires = "expires=" + d.toUTCString();
         document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
       }

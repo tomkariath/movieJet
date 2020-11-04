@@ -14,7 +14,9 @@
 					 {"headerText": "Up Vote",
 					 "field": "goodCount", "sortable": "enabled"},
 					 {"headerText": "Down Vote",
-					 "field": "badCount", "sortable": "enabled"}]'
+					 "field": "badCount", "sortable": "enabled"},
+					 {"headerText": "Average Rating",
+					 "field": "avgRating", "sortable": "enabled"}]'
 			row-renderer='[[oj.KnockoutTemplateUtils.getRenderer("row_tmpl", true)]]'>
 		</oj-table>
 		<br />
@@ -53,6 +55,9 @@
 						<oj-bind-text value="[[badCount]]"></oj-bind-text>
 					</span>
 				</oj-button></td>
+				<td>
+					<oj-rating-gauge value="[[avgRating]]"  labelled-by="disabled" disabled></oj-rating-gauge>
+				</td>
 			</tr>
 		</script>
 	</div>

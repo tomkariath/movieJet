@@ -13,13 +13,14 @@ define(['accUtils',
 	'ojs/ojmodel', 'ojs/ojcollectiontabledatasource',
 	'ojs/ojknockout',
 	'ojs/ojtable', 'ojs/ojcheckboxset', 'ojs/ojinputnumber',
-	'ojs/ojinputtext', 'ojs/ojdialog', 'ojs/ojbutton', 'ojs/ojformlayout'],
+	'ojs/ojinputtext', 'ojs/ojdialog', 'ojs/ojbutton', 'ojs/ojformlayout', 'ojs/ojgauge'],
 	function (accUtils, oj, ko, $, Model, CollectionTableDataSource) {
 		function DashboardViewModel() {
 
 			var self = this;
 			self.newMovieName = ko.observable('');
 			self.workingId = ko.observable('');
+			self.ratingValue = ko.observable(3);
 			//var rootViewModel = ko.dataFor(document.getElementById('mainContent'));
 			var cred = getCookie("cred");
 			// btoa(rootViewModel.loginUser + ":" + rootViewModel.loginPassword)
@@ -136,7 +137,8 @@ define(['accUtils',
 					id: response['id'],
 					name: response['name'],
 					goodCount: response['goodCount'],
-					badCount: response['badCount']
+					badCount: response['badCount'],
+					avgRating: response['avgRating']
 				};
 			};
 
